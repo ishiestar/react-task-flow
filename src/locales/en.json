@@ -1,0 +1,27 @@
+{
+  "tasks": {
+    "searchPlaceholder": "Search tasks...",
+    "noTasksFound": "No tasks found",
+    "noTasksDescription": "Try adjusting your search or active filters.",
+    "loading": "Loading tasks...",
+    "newTask": "New Task",
+    "clearFilters": "Clear filters",
+    "actions": {
+      "delete": "Delete task {{title}}",
+      "changeStatus": "Change status for {{title}}"
+    },
+    "status": {
+      "all": "All Statuses",
+      "filterByStatus": "Filter by Status",
+      "todo": "To Do",
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    },
+    "priority": {
+      "all": "All Priorities",
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    }
+  }
+}
