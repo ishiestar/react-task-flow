@@ -1,4 +1,8 @@
-import type { Task, TaskPriority, TaskStatus } from "@/components/molecules/TaskCard";
+import type {
+  Task,
+  TaskPriority,
+  TaskStatus,
+} from '@/features/tasks';
 
 export type StatusFilter = 'ALL' | TaskStatus;
 export type PriorityFilter = 'ALL' | TaskPriority;

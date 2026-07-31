@@ -22,6 +22,25 @@
       "high": "High",
       "medium": "Medium",
       "low": "Low"
+    },
+    "form": {
+      "createTitle": "Create New Task",
+      "editTitle": "Edit Task",
+      "titleLabel": "Task Title",
+      "titlePlaceholder": "e.g. Implement Auth Guard",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Add details about this task...",
+      "statusLabel": "Status",
+      "priorityLabel": "Priority",
+      "dueDateLabel": "Due Date",
+      "submitCreate": "Create Task",
+      "submitUpdate": "Save Changes",
+      "cancel": "Cancel",
+      "close": "Close modal",
+      "validation": {
+        "titleRequired": "Task title is required",
+        "titleTooLong": "Title must be less than 100 characters"
+      }
     }
   }
 }

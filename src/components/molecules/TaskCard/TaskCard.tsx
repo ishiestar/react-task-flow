@@ -2,8 +2,15 @@ import React from 'react';
 import clsx from 'clsx';
 import { format, parseISO } from 'date-fns';
 import { useTranslation } from 'react-i18next';
-import { AlertCircle, Clock, CheckCircle2, Trash2, Calendar } from 'lucide-react';
-import type { TaskCardProps, TaskPriority, TaskStatus } from './TaskCard.types';
+import {
+  AlertCircle,
+  Clock,
+  CheckCircle2,
+  Trash2,
+  Calendar,
+} from 'lucide-react';
+import type { TaskCardProps } from './TaskCard.types';
+import type { TaskPriority, TaskStatus } from '@/features/tasks';
 
 const priorityConfig: Record<TaskPriority, { labelKey: string; color: string }> = {
   HIGH: { labelKey: 'tasks.priority.high', color: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300' },

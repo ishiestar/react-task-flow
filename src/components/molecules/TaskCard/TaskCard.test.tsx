@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { TaskCard } from './TaskCard';
-import type { Task } from './TaskCard.types';
+import type { Task } from '@/features/tasks';
 
 const mockTask: Task = {
   id: 'task-123',

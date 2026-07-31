@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { TaskList } from './TaskList';
-import type { Task } from '@/components/molecules/TaskCard';
+import type { Task } from '../task.types';
 
 const mockTasks: Task[] = [
   { id: '1', title: 'Fix Layout Bug', status: 'TODO', priority: 'HIGH' },

@@ -16,9 +16,10 @@ export const TaskList: React.FC<TaskListProps> = ({
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Extract filter parameters directly from URL query string
-  const searchQuery = searchParams.get('q') || '';
-  const statusFilter = (searchParams.get('status') as StatusFilter) || 'ALL';
-  const priorityFilter = (searchParams.get('priority') as PriorityFilter) || 'ALL';
+  const searchQuery = searchParams.get('q') ?? '';
+  const statusFilter = (searchParams.get('status') as StatusFilter) ?? 'ALL';
+  const priorityFilter =
+    (searchParams.get('priority') as PriorityFilter) ?? 'ALL';
 
   // Helper to update individual URL query params cleanly
   const updateFilter = (key: string, value: string) => {
