@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search, Plus, FilterX, Loader2 } from 'lucide-react';
-import { TaskCard } from '@/components/molecules/TaskCard';
+import { TaskCard } from '@/features/tasks/components/TaskCard';
 import type { PriorityFilter, StatusFilter, TaskListProps } from './TaskList.types';
 import { useTranslation } from 'react-i18next';
 

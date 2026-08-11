@@ -6,6 +6,11 @@
     "loading": "Loading tasks...",
     "newTask": "New Task",
     "clearFilters": "Clear filters",
+    "page": {
+      "title": "Task Overview",
+      "subtitle": "Manage, track, and organize your work efficiently.",
+      "retry": "Retry"
+    },
     "actions": {
       "delete": "Delete task {{title}}",
       "changeStatus": "Change status for {{title}}"

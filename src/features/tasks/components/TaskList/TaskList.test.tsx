@@ -1,19 +1,15 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
 import { TaskList } from './TaskList';
-import type { Task } from '../task.types';
+import type { Task } from '../../task.types';
+import { renderWithRouter } from '@/test/helpers';
 
 const mockTasks: Task[] = [
   { id: '1', title: 'Fix Layout Bug', status: 'TODO', priority: 'HIGH' },
   { id: '2', title: 'Write Documentation', status: 'IN_PROGRESS', priority: 'LOW' },
   { id: '3', title: 'Deploy to Vercel', status: 'COMPLETED', priority: 'MEDIUM' },
 ];
-
-const renderWithRouter = (ui: React.ReactElement, initialEntries = ['/']) => {
-  return render(<MemoryRouter initialEntries={initialEntries}>{ui}</MemoryRouter>);
-};
 
 describe('<TaskList />', () => {
   it('renders all tasks by default', () => {
