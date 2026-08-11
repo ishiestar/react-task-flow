@@ -1,4 +1,23 @@
 {
+  "auth": {
+    "login": "Sign In",
+    "logout": "Sign Out",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "user@taskflow.dev",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "signingIn": "Signing in...",
+    "invalidCredentials": "Invalid email or password",
+    "welcome": "Welcome back, {{name}}",
+    "validation": {
+      "emailRequired": "Email is required",
+      "invalidEmail": "Please enter a valid email address",
+      "passwordTooShort": "Password must be at least 6 characters"
+    },
+    "unauthorizedTitle": "Access Denied",
+    "unauthorizedMessage": "You do not have permission to access this resource.",
+    "backToDashboard": "Back to Dashboard"
+  },
   "tasks": {
     "searchPlaceholder": "Search tasks...",
     "noTasksFound": "No tasks found",

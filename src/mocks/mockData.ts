@@ -1,3 +1,5 @@
+import type { User } from "@/features/auth";
+
 export interface Task {
   id: string;
   title: string;
@@ -12,4 +14,19 @@ export const initialTasks: Task[] = [
 ];
 
 // In-memory state for runtime POC mutations
-export let mockTasks = [...initialTasks];
+export const mockTasks = [...initialTasks];
+
+export const MOCK_USERS: Record<string, User> = {
+  'admin@taskflow.dev': {
+    id: 'user-admin',
+    email: 'admin@taskflow.dev',
+    name: 'Admin User',
+    role: 'ADMIN',
+  },
+  'user@taskflow.dev': {
+    id: 'user-standard',
+    email: 'user@taskflow.dev',
+    name: 'Standard User',
+    role: 'USER',
+  },
+};

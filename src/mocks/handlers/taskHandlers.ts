@@ -1,8 +1,8 @@
 import { http, HttpResponse, delay } from 'msw';
-import { mockTasks } from './mockData';
+import { mockTasks } from '../mockData';
 import type { Task, TaskStatus } from '@/features/tasks';
 
-export const handlers = [
+export const taskHandlers = [
   // GET /api/tasks
   http.get('/api/tasks', async () => {
     await delay(200);
