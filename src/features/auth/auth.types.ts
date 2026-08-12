@@ -13,7 +13,7 @@ export interface User {
 }
 
 export const loginSchema = z.object({
-  email: z.email('auth.validation.invalidEmail').min(1, 'auth.validation.emailRequired'),
+  email: z.email('auth.validation.invalidEmail'),
   password: z.string().min(6, 'auth.validation.passwordTooShort'),
 });
 

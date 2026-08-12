@@ -10,7 +10,6 @@
     "invalidCredentials": "Invalid email or password",
     "welcome": "Welcome back, {{name}}",
     "validation": {
-      "emailRequired": "Email is required",
       "invalidEmail": "Please enter a valid email address",
       "passwordTooShort": "Password must be at least 6 characters"
     },
