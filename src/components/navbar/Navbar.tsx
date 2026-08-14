@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { CheckSquare, BarChart3, LogOut, Shield, User as UserIcon } from 'lucide-react';
 import { useAuth } from '@/features/auth';
@@ -30,7 +30,7 @@ export const Navbar: React.FC = () => {
               <CheckSquare className="w-5 h-5" />
             </div>
             <span className="font-bold text-lg text-slate-900 dark:text-slate-100 tracking-tight">
-              TaskFlow
+              {t('nav.brand', 'TaskFlow')}
             </span>
           </NavLink>
 
@@ -50,9 +50,14 @@ export const Navbar: React.FC = () => {
         {/* User Info & Actions */}
         {user && (
           <div className="flex items-center gap-3">
-            {/* User Profile Info */}
-            <div className="flex items-center gap-2.5 pl-2">
-              <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-300 font-semibold text-xs">
+            {/* Clickable Profile Badge */}
+            <Link
+              to="/profile"
+              className="flex items-center gap-2.5 pl-2 p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              title={t('nav.viewProfile', 'View Profile')}
+              aria-label={t('nav.viewProfile', 'View Profile')}
+            >
+              <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-300 font-semibold text-xs overflow-hidden">
                 {user.avatarUrl ? (
                   <img
                     src={user.avatarUrl}
@@ -76,21 +81,21 @@ export const Navbar: React.FC = () => {
               {/* Role Badge */}
               <span
                 className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${user.role === 'ADMIN'
-                  ? 'bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/50'
-                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
+                    ? 'bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/50'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
                   }`}
               >
                 {user.role === 'ADMIN' ? <Shield className="w-2.5 h-2.5" /> : <UserIcon className="w-2.5 h-2.5" />}
-                {user.role}
+                {t(`auth.roles.${user.role}`, user.role)}
               </span>
-            </div>
+            </Link>
 
             {/* Logout Button */}
             <button
               onClick={handleLogout}
               aria-label={t('auth.logout', 'Sign Out')}
               title={t('auth.logout', 'Sign Out')}
-              className="p-2 text-slate-500 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+              className="p-2 text-slate-500 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
             >
               <LogOut className="w-4 h-4" />
             </button>
@@ -107,6 +112,10 @@ export const Navbar: React.FC = () => {
         <NavLink to="/analytics" className={navLinkClasses}>
           <BarChart3 className="w-4 h-4" />
           <span>{t('nav.analytics', 'Analytics')}</span>
+        </NavLink>
+        <NavLink to="/profile" className={navLinkClasses}>
+          <UserIcon className="w-4 h-4" />
+          <span>{t('nav.profile', 'Profile')}</span>
         </NavLink>
       </nav>
     </header>

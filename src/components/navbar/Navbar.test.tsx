@@ -3,6 +3,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Navbar } from './Navbar';
 import { renderWithProviders } from '@/test/helpers';
+import { mockUsers } from '@/test/mocks';
 
 const mockLogout = vi.fn();
 
@@ -11,12 +12,7 @@ vi.mock('../../features/auth/context/AuthContext', async (importOriginal) => {
   return {
     ...actual,
     useAuth: () => ({
-      user: {
-        id: 'usr-admin',
-        name: 'Sarah Connor',
-        email: 'sarah@taskflow.dev',
-        role: 'ADMIN',
-      },
+      user: mockUsers.sarah,
       logout: mockLogout,
     }),
   };

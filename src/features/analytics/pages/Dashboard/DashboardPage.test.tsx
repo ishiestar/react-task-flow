@@ -1,8 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen } from '@testing-library/react';
-import type { Task } from '@/features/tasks';
-import type { UseTasksReturn } from '@/hooks/useTasks';
 import { renderWithProviders } from '@/test/helpers';
+import { createTask, defaultMockTasksReturn, mockUsers } from '@/test/mocks';
 import { DashboardPage } from './DashboardPage';
 
 // Mock custom hooks
@@ -20,32 +19,12 @@ vi.mock('@/features/auth', async (importOriginal) => {
   };
 });
 
-// Helper to create test tasks
-const createTask = (overrides?: Partial<Task>): Task => ({
-  id: 'task-1',
-  title: 'Test Task',
-  status: 'TODO',
-  priority: 'MEDIUM',
-  createdBy: 'user-123',
-  ...overrides,
-});
-
-const defaultMockReturn: UseTasksReturn = {
-  tasks: [],
-  isLoading: false,
-  error: null,
-  fetchTasks: vi.fn(),
-  addTask: vi.fn(),
-  updateTaskStatus: vi.fn(),
-  deleteTask: vi.fn(),
-};
-
 describe('<DashboardPage />', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseTasks.mockReturnValue(defaultMockReturn);
+    mockUseTasks.mockReturnValue(defaultMockTasksReturn);
     mockUseAuth.mockReturnValue({
-      user: { id: 'user-123', name: 'Test User', role: 'USER', email: 'user@taskflow.dev' },
+      user: mockUsers.user,
       isAuthenticated: true,
       isLoading: false,
     });
@@ -54,7 +33,7 @@ describe('<DashboardPage />', () => {
   describe('Loading State', () => {
     it('displays loading spinner when isLoading is true', () => {
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         isLoading: true,
       });
 
@@ -78,7 +57,7 @@ describe('<DashboardPage />', () => {
   describe('Metric Cards - Empty State', () => {
     it('renders all metric cards with zero values when no tasks exist', () => {
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks: [],
       });
 
@@ -101,14 +80,17 @@ describe('<DashboardPage />', () => {
       const tasks = [createTask({ id: '1', status: 'TODO', priority: 'HIGH' })];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
       renderWithProviders(<DashboardPage />);
 
-      // Total tasks
-      expect(screen.getByText('1', { selector: 'p' })).toBeInTheDocument();
+      // Total tasks - find the metric value (text-2xl), not subtitle
+      const taskValues = screen.getAllByText((content, element) =>
+        !!(content === '1' && element?.className.includes('text-2xl'))
+      );
+      expect(taskValues.length).toBeGreaterThan(0);
 
       // Completion rate: 0% (appears in multiple places)
       const completionRateTexts = screen.getAllByText(/0%/);
@@ -123,7 +105,7 @@ describe('<DashboardPage />', () => {
       const tasks = [createTask({ id: '1', status: 'COMPLETED', priority: 'HIGH' })];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
@@ -138,7 +120,7 @@ describe('<DashboardPage />', () => {
       const tasks = [createTask({ id: '1', status: 'IN_PROGRESS', priority: 'MEDIUM' })];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
@@ -160,7 +142,7 @@ describe('<DashboardPage />', () => {
       ];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
@@ -187,14 +169,17 @@ describe('<DashboardPage />', () => {
       ];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
       renderWithProviders(<DashboardPage />);
 
-      // Total tasks: 4
-      expect(screen.getByText('4', { selector: 'p' })).toBeInTheDocument();
+      // Total tasks: 4 - find the metric value (text-2xl), not subtitle
+      const taskValues = screen.getAllByText((content, element) =>
+        !!(content === '4' && element?.className.includes('text-2xl'))
+      );
+      expect(taskValues.length).toBeGreaterThan(0);
     });
   });
 
@@ -210,7 +195,7 @@ describe('<DashboardPage />', () => {
       ];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
@@ -245,7 +230,7 @@ describe('<DashboardPage />', () => {
       ];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
@@ -269,7 +254,7 @@ describe('<DashboardPage />', () => {
       ];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
@@ -290,7 +275,7 @@ describe('<DashboardPage />', () => {
       ];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
@@ -307,7 +292,7 @@ describe('<DashboardPage />', () => {
       ];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
@@ -325,7 +310,7 @@ describe('<DashboardPage />', () => {
       ];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
@@ -345,7 +330,7 @@ describe('<DashboardPage />', () => {
       ];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
@@ -364,7 +349,7 @@ describe('<DashboardPage />', () => {
       ];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
@@ -383,7 +368,7 @@ describe('<DashboardPage />', () => {
       ];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
@@ -408,7 +393,7 @@ describe('<DashboardPage />', () => {
       ];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
@@ -430,7 +415,7 @@ describe('<DashboardPage />', () => {
       ];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 
@@ -449,7 +434,7 @@ describe('<DashboardPage />', () => {
       ];
 
       mockUseTasks.mockReturnValue({
-        ...defaultMockReturn,
+        ...defaultMockTasksReturn,
         tasks,
       });
 

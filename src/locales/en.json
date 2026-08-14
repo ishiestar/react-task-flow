@@ -13,13 +13,21 @@
       "invalidEmail": "Please enter a valid email address",
       "passwordTooShort": "Password must be at least 6 characters"
     },
+    "roles": {
+      "ADMIN": "ADMIN",
+      "USER": "USER"
+    },
+    "roleLabel": "Role: {{role}}",
     "unauthorizedTitle": "Access Denied",
     "unauthorizedMessage": "You do not have permission to access this resource.",
     "backToDashboard": "Back to Dashboard"
   },
   "nav": {
+    "brand": "TaskFlow",
     "tasks": "Tasks",
-    "analytics": "Analytics"
+    "analytics": "Analytics",
+    "profile": "Profile",
+    "viewProfile": "View Profile"
   },
   "tasks": {
     "searchPlaceholder": "Search tasks...",
@@ -68,6 +76,30 @@
         "titleRequired": "Task title is required",
         "titleTooLong": "Title must be less than 100 characters"
       }
+    }
+  },
+  "profile": {
+    "title": "Account Settings",
+    "subtitle": "Manage your personal profile, credentials, and access permissions.",
+    "permissionsHeader": "Role Permissions",
+    "editHeader": "Personal Details",
+    "fullName": "Full Name",
+    "email": "Email Address",
+    "avatarUrl": "Avatar Image URL (Optional)",
+    "bio": "Bio / Title (Optional)",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "saveSuccess": "Profile updated successfully!",
+    "permissions": {
+      "createAndUpdate": "Create & update task statuses",
+      "deleteOwn": "Delete own created tasks",
+      "deleteAnyAdmin": "Delete any task (Admin privilege)",
+      "deleteOtherDenied": "Delete other users' tasks"
+    },
+    "validation": {
+      "nameMin": "Name must be at least 2 characters",
+      "invalidUrl": "Please enter a valid URL",
+      "bioMax": "Bio cannot exceed 160 characters"
     }
   }
 }

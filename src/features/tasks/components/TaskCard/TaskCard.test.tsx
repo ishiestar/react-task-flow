@@ -1,8 +1,8 @@
-import type { Task } from '@/features/tasks';
-import { renderWithProviders } from '@/test/helpers';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { renderWithProviders } from '@/test/helpers';
+import { createTask, adminAuthReturn, mockUsers } from '@/test/mocks';
 import { TaskCard } from './TaskCard';
 
 // Mock the auth module
@@ -16,18 +16,6 @@ vi.mock('@/features/auth', async (importOriginal) => {
 
 import { useAuth } from '@/features/auth';
 
-// Helper to create test tasks
-const createTask = (overrides?: Partial<Task>): Task => ({
-  id: 'task-123',
-  title: 'Implement TaskCard Component',
-  description: 'Build a co-located React component for daily task management.',
-  status: 'TODO',
-  priority: 'HIGH',
-  dueDate: '2026-08-01T00:00:00.000Z',
-  createdBy: 'user-admin',
-  ...overrides,
-});
-
 describe('<TaskCard />', () => {
   let user: ReturnType<typeof userEvent.setup>;
 
@@ -35,11 +23,7 @@ describe('<TaskCard />', () => {
     user = userEvent.setup({ delay: null });
     vi.clearAllMocks();
     // Default to admin user
-    (useAuth as any).mockReturnValue({
-      user: { id: 'user-admin', name: 'Admin User', role: 'ADMIN', email: 'admin@taskflow.dev' },
-      isAuthenticated: true,
-      isLoading: false,
-    });
+    (useAuth as any).mockReturnValue(adminAuthReturn);
   });
 
   describe('Rendering', () => {
@@ -192,7 +176,7 @@ describe('<TaskCard />', () => {
     it('shows delete button when ADMIN user', () => {
       const task = createTask();
       (useAuth as any).mockReturnValue({
-        user: { id: 'user-admin', name: 'Admin User', role: 'ADMIN', email: 'admin@taskflow.dev' },
+        user: mockUsers.admin,
       });
 
       renderWithProviders(
@@ -205,7 +189,7 @@ describe('<TaskCard />', () => {
     it('shows delete button when USER created the task', () => {
       const task = createTask({ createdBy: 'user-123' });
       (useAuth as any).mockReturnValue({
-        user: { id: 'user-123', name: 'Regular User', role: 'USER', email: 'user@taskflow.dev' },
+        user: mockUsers.user,
       });
 
       renderWithProviders(
@@ -218,7 +202,7 @@ describe('<TaskCard />', () => {
     it('hides delete button when USER did not create the task', () => {
       const task = createTask({ createdBy: 'user-admin' });
       (useAuth as any).mockReturnValue({
-        user: { id: 'user-123', name: 'Regular User', role: 'USER', email: 'user@taskflow.dev' },
+        user: mockUsers.user,
       });
 
       renderWithProviders(

@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { TaskPage } from './TaskPage';
 import type { UseTasksReturn } from '@/hooks/useTasks';
 import { renderWithProviders } from '@/test/helpers';
+import { mockUsers } from '@/test/mocks';
 
 // Mock custom hooks
 const mockUseTasks = vi.fn();
@@ -22,13 +23,13 @@ vi.mock('@/features/auth', async (importOriginal) => {
 
 const mockTasksData: UseTasksReturn = {
   tasks: [
-    { id: '1', title: 'Setup CI/CD Pipeline', status: 'TODO', priority: 'HIGH' },
-    { id: '2', title: 'Write Integration Tests', status: 'IN_PROGRESS', priority: 'MEDIUM' },
+    { id: '1', title: 'Setup CI/CD Pipeline', status: 'TODO', priority: 'HIGH', createdBy: 'user-123' },
+    { id: '2', title: 'Write Integration Tests', status: 'IN_PROGRESS', priority: 'MEDIUM', createdBy: 'user-123' },
   ],
   isLoading: false,
   error: null,
   fetchTasks: vi.fn(),
-  addTask: vi.fn().mockResolvedValue({ id: '3', title: 'New Created Task', status: 'TODO', priority: 'LOW' }),
+  addTask: vi.fn().mockResolvedValue({ id: '3', title: 'New Created Task', status: 'TODO', priority: 'LOW', createdBy: 'user-123' }),
   updateTaskStatus: vi.fn(),
   deleteTask: vi.fn(),
 };
@@ -41,7 +42,7 @@ describe('<TaskPage />', () => {
     vi.clearAllMocks();
     mockUseTasks.mockReturnValue(mockTasksData);
     mockUseAuth.mockReturnValue({
-      user: { id: 'user-123', name: 'Test User', role: 'USER', email: 'user@taskflow.dev' },
+      user: mockUsers.user,
       isAuthenticated: true,
       isLoading: false,
     });

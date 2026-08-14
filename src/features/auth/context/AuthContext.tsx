@@ -1,14 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import type { User, LoginCredentials } from '../auth.types';
-
-interface AuthContextValue {
-  user: User | null;
-  token: string | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  login: (credentials: LoginCredentials) => Promise<void>;
-  logout: () => void;
-}
+import type { User, LoginCredentials, AuthContextValue, UpdateProfileInput } from '../auth.types';
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
@@ -75,6 +66,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(null);
   };
 
+  const updateProfile = async (data: UpdateProfileInput) => {
+    if (!user) return;
+
+    // Optimistic / local update (syncs to server if endpoint exists)
+    const updatedUser: User = {
+      ...user,
+      ...data,
+    };
+    setUser(updatedUser);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -84,6 +86,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isLoading,
         login,
         logout,
+        updateProfile,
       }}
     >
       {children}

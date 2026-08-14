@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { screen } from '@testing-library/react';
 import { renderWithProviders } from '@/test/helpers';
+import { createMetrics } from '@/test/mocks';
 import { AnalyticsCharts } from './AnalyticsCharts';
-import type { AnalyticsMetrics } from '../../analytics.types';
 
 // Helper to find elements containing a specific number (works with text like "3 (50%)")
 const hasNumber = (num: number | string) => {
@@ -11,27 +11,6 @@ const hasNumber = (num: number | string) => {
   );
   return elements.length > 0;
 };
-
-// Helper to create test metrics
-const createMetrics = (overrides?: Partial<AnalyticsMetrics>): AnalyticsMetrics => ({
-  totalTasks: 4,
-  completedTasks: 2,
-  inProgressTasks: 1,
-  todoTasks: 1,
-  completionRate: 50,
-  overdueTasks: 0,
-  priorityDistribution: {
-    HIGH: 2,
-    MEDIUM: 1,
-    LOW: 1,
-  },
-  statusDistribution: {
-    COMPLETED: 2,
-    IN_PROGRESS: 1,
-    TODO: 1,
-  },
-  ...overrides,
-});
 
 describe('<AnalyticsCharts />', () => {
   describe('Rendering', () => {
