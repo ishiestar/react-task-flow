@@ -101,5 +101,9 @@
       "invalidUrl": "Please enter a valid URL",
       "bioMax": "Bio cannot exceed 160 characters"
     }
+  },
+  "theme": {
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode"
   }
 }
