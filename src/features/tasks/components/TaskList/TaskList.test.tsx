@@ -3,7 +3,8 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { TaskList } from './TaskList';
 import type { Task } from '../../task.types';
-import { renderWithRouter } from '@/test/helpers';
+import { renderWithProviders } from '@/test/helpers';
+import { AuthProvider } from '@/features/auth';
 
 const mockTasks: Task[] = [
   { id: '1', title: 'Fix Layout Bug', status: 'TODO', priority: 'HIGH' },
@@ -11,9 +12,14 @@ const mockTasks: Task[] = [
   { id: '3', title: 'Deploy to Vercel', status: 'COMPLETED', priority: 'MEDIUM' },
 ];
 
+const render = () => renderWithProviders(
+  <TaskList tasks={mockTasks} onStatusChange={vi.fn()} />,
+  { extraProviders: [AuthProvider] }
+);
+
 describe('<TaskList />', () => {
   it('renders all tasks by default', () => {
-    renderWithRouter(<TaskList tasks={mockTasks} onStatusChange={vi.fn()} />);
+    render();
 
     expect(screen.getByText('Fix Layout Bug')).toBeInTheDocument();
     expect(screen.getByText('Write Documentation')).toBeInTheDocument();
@@ -22,7 +28,7 @@ describe('<TaskList />', () => {
 
   it('filters tasks based on search text input', async () => {
     const user = userEvent.setup();
-    renderWithRouter(<TaskList tasks={mockTasks} onStatusChange={vi.fn()} />);
+    render();
 
     const searchInput = screen.getByPlaceholderText('Search tasks...');
     await user.type(searchInput, 'Bug');
@@ -33,7 +39,7 @@ describe('<TaskList />', () => {
 
   it('filters tasks based on selected status option', async () => {
     const user = userEvent.setup();
-    renderWithRouter(<TaskList tasks={mockTasks} onStatusChange={vi.fn()} />);
+    render();
 
     const statusSelect = screen.getByRole('combobox', { name: 'Filter by Status' });
     await user.selectOptions(statusSelect, 'COMPLETED');

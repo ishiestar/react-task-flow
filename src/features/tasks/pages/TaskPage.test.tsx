@@ -3,13 +3,22 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { TaskPage } from './TaskPage';
 import type { UseTasksReturn } from '@/hooks/useTasks';
-import { renderWithRouter } from '@/test/helpers';
+import { renderWithProviders } from '@/test/helpers';
 
-// Mock custom hook
+// Mock custom hooks
 const mockUseTasks = vi.fn();
 vi.mock('@/hooks/useTasks', () => ({
   useTasks: () => mockUseTasks(),
 }));
+
+const mockUseAuth = vi.fn();
+vi.mock('@/features/auth', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/features/auth')>();
+  return {
+    ...actual,
+    useAuth: () => mockUseAuth(),
+  };
+});
 
 const mockTasksData: UseTasksReturn = {
   tasks: [
@@ -31,10 +40,15 @@ describe('<TaskPage />', () => {
     user = userEvent.setup({ delay: null });
     vi.clearAllMocks();
     mockUseTasks.mockReturnValue(mockTasksData);
+    mockUseAuth.mockReturnValue({
+      user: { id: 'user-123', name: 'Test User', role: 'USER', email: 'user@taskflow.dev' },
+      isAuthenticated: true,
+      isLoading: false,
+    });
   });
 
   it('renders page header and list of tasks correctly', () => {
-    renderWithRouter(<TaskPage />);
+    renderWithProviders(<TaskPage />);
 
     expect(screen.getByText('Task Overview')).toBeInTheDocument();
     expect(screen.getByText('Setup CI/CD Pipeline')).toBeInTheDocument();
@@ -42,7 +56,7 @@ describe('<TaskPage />', () => {
   });
 
   it('opens TaskForm modal when New Task button is clicked', async () => {
-    renderWithRouter(<TaskPage />);
+    renderWithProviders(<TaskPage />);
 
     expect(screen.queryByText('Create New Task')).not.toBeInTheDocument();
 
@@ -57,7 +71,7 @@ describe('<TaskPage />', () => {
       error: 'Failed to connect to backend server',
     });
 
-    renderWithRouter(<TaskPage />);
+    renderWithProviders(<TaskPage />);
 
     expect(screen.getByText('Failed to connect to backend server')).toBeInTheDocument();
 
@@ -68,7 +82,7 @@ describe('<TaskPage />', () => {
   });
 
   it('submits new task through TaskForm modal and closes modal', async () => {
-    renderWithRouter(<TaskPage />);
+    renderWithProviders(<TaskPage />);
 
     // Open Modal
     await user.click(screen.getByRole('button', { name: 'New Task' }));

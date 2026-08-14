@@ -4,17 +4,26 @@ import { Plus, AlertTriangle, RefreshCw } from 'lucide-react';
 import { useTasks } from '@/hooks/useTasks';
 import { TaskForm, type TaskFormValues } from '../components/TaskForm';
 import { TaskList } from '../components/TaskList';
+import { useAuth } from '@/features/auth';
 
 export const TaskPage: React.FC = () => {
   const { t } = useTranslation();
   const { tasks, isLoading, error, fetchTasks, addTask, updateTaskStatus, deleteTask } = useTasks();
+  const { user } = useAuth();
 
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleCreateTask = async (values: TaskFormValues) => {
+    if (!user) {
+      console.error('User not authenticated');
+      return;
+    }
     setIsSubmitting(true);
-    const result = await addTask(values);
+    const result = await addTask({
+      ...values,
+      createdBy: user?.id
+    });
     setIsSubmitting(false);
 
     if (result) {

@@ -5,7 +5,7 @@ export interface UseTasksReturn {
   isLoading: boolean;
   error: string | null;
   fetchTasks: () => Promise<void>;
-  addTask: (values: TaskFormValues) => Promise<Task | undefined>;
+  addTask: (values: TaskFormValues & { createdBy: string }) => Promise<Task | undefined>;
   updateTaskStatus: (taskId: string, newStatus: TaskStatus) => Promise<void>;
   deleteTask: (taskId: string) => Promise<void>;
 }

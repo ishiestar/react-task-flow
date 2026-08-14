@@ -2,30 +2,18 @@ import React from 'react';
 import clsx from 'clsx';
 import { format, parseISO } from 'date-fns';
 import { useTranslation } from 'react-i18next';
-import {
-  AlertCircle,
-  Clock,
-  CheckCircle2,
-  Trash2,
-  Calendar,
-} from 'lucide-react';
+import { Trash2, Calendar, } from 'lucide-react';
 import type { TaskCardProps } from './TaskCard.types';
-import type { TaskPriority, TaskStatus } from '@/features/tasks';
-
-const priorityConfig: Record<TaskPriority, { labelKey: string; color: string }> = {
-  HIGH: { labelKey: 'tasks.priority.high', color: 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300' },
-  MEDIUM: { labelKey: 'tasks.priority.medium', color: 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300' },
-  LOW: { labelKey: 'tasks.priority.low', color: 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300' },
-};
-
-const statusIcons: Record<TaskStatus, React.ReactNode> = {
-  TODO: <Clock className="w-4 h-4 text-slate-500" />,
-  IN_PROGRESS: <AlertCircle className="w-4 h-4 text-amber-500" />,
-  COMPLETED: <CheckCircle2 className="w-4 h-4 text-emerald-500" />,
-};
+import type { TaskStatus } from '@/features/tasks';
+import { useAuth } from '@/features/auth';
+import { canDeleteTask } from '@/features/auth/utils/permissions';
+import { priorityConfig, statusIcons } from './utils';
 
 export const TaskCard: React.FC<TaskCardProps> = ({ task, onStatusChange, onDelete }) => {
   const { t } = useTranslation();
+  const { user } = useAuth();
+  const isDeletable = onDelete && canDeleteTask(user, task);
+
   const { id, title, description, status, priority, dueDate } = task;
 
   const handleStatusSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -51,8 +39,9 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, onStatusChange, onDele
           {t(priorityConfig[priority].labelKey)}
         </span>
 
-        {onDelete && (
+        {isDeletable && (
           <button
+            type="button"
             onClick={() => onDelete(id)}
             aria-label={t('tasks.actions.delete', { title })}
             className="text-slate-400 hover:text-red-600 transition-colors p-1 rounded"
