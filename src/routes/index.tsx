@@ -1,3 +1,5 @@
+import { AppLayout } from "@/components"
+import { DashboardPage } from "@/features/analytics"
 import { LoginPage, ProtectedRoute } from "@/features/auth"
 import { UnauthorizedPage } from "@/features/auth/pages/UnauthorizedPage/UnauthorizedPage"
 import { TaskPage } from "@/features/tasks"
@@ -10,15 +12,17 @@ export const AppRoutes: React.FC = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-      {/* Protected Routes */}
+      {/* Protected Routes inside AppLayout */}
       <Route
-        path="/"
         element={
           <ProtectedRoute>
-            <TaskPage />
+            <AppLayout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route path="/" element={<TaskPage />} />
+        <Route path="/analytics" element={<DashboardPage />} />
+      </Route>
 
       {/* Fallback Redirect */}
       <Route path="*" element={<Navigate to="/" replace />} />

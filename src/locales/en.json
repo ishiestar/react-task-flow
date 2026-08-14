@@ -17,6 +17,10 @@
     "unauthorizedMessage": "You do not have permission to access this resource.",
     "backToDashboard": "Back to Dashboard"
   },
+  "nav": {
+    "tasks": "Tasks",
+    "analytics": "Analytics"
+  },
   "tasks": {
     "searchPlaceholder": "Search tasks...",
     "noTasksFound": "No tasks found",

@@ -13,16 +13,26 @@ function getNestedTranslation(obj: Record<string, any>, path: string): string {
 // Mock react-i18next to return real English values and interpolate variables
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string, options?: Record<string, any>) => {
+    t: (key: string, defaultValue?: string | Record<string, any>, options?: Record<string, any>) => {
+      // Handle different parameter combinations: t(key), t(key, defaultValue), or t(key, options)
       let translation = getNestedTranslation(enTranslations, key);
-      
+      let interpolationOptions = options;
+
+      // If translation key doesn't exist and defaultValue is provided
+      if (translation === key && typeof defaultValue === 'string') {
+        translation = defaultValue;
+      } else if (typeof defaultValue === 'object') {
+        // defaultValue is actually options (the third parameter was omitted)
+        interpolationOptions = defaultValue;
+      }
+
       // Interpolate dynamic variables like {{title}} in "Delete task {{title}}"
-      if (options) {
-        Object.keys(options).forEach((varName) => {
-          translation = translation.replace(`{{${varName}}}`, String(options[varName]));
+      if (interpolationOptions) {
+        Object.keys(interpolationOptions).forEach((varName) => {
+          translation = translation.replace(`{{${varName}}}`, String(interpolationOptions[varName]));
         });
       }
-      
+
       return translation;
     },
   }),
